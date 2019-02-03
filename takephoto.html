@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+
+
+
+
+    <div >
+      <p style="text-align:center">Enter the amount you acquire</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    <textarea id="inputTextToSave" cols="30" rows="4"></textarea>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <button style="justify-content:center" onclick="saveTextAsFile()">
+      <p style="fontsize:20">Set</p>
+    </button>
+
+    <script type="text/javascript">
+
+    function saveTextAsFile()
+    {
+        var textToSave = document.getElementById("inputTextToSave").value;
+        var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+        var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+        //var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+        var fileNameToSaveAs = "request.txt"
+
+        var downloadLink = document.createElement("a");
+        downloadLink.download = fileNameToSaveAs;
+        downloadLink.innerHTML = "Download File";
+        downloadLink.href = textToSaveAsURL;
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+
+        downloadLink.click();
+    }
+
+    function destroyClickedElement(event)
+    {
+        document.body.removeChild(event.target);
+    }
+
+    function loadFileAsText()
+    {
+        var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+        var fileReader = new FileReader();
+        fileReader.onload = function(fileLoadedEvent)
+        {
+            var textFromFileLoaded = fileLoadedEvent.target.result;
+            document.getElementById("inputTextToSave").value = textFromFileLoaded;
+        };
+        fileReader.readAsText(fileToLoad, "UTF-8");
+    }
+
+    </script>
+
+
+
+
+    <div class="booth">
+      <video id="video" width="400" height="300" ></video>
+      <a href="#" id="capture" class="booth-capture-button"> Take photo</a>
+
+      <canvas id="canvas" width="400" height="300"></canvas>
+
+
+    </div>
+    <a  id="download" download="template.jpg" href="" onclick="download_img(this);">SEND</a>
+
+
+    <script src="js/photo.js"></script>
+
+
+    <form method="post" enctype="multipart/form-data" target="_blank">
+        <fieldset>
+            <legend>REQUEST MONEY BY SNAPPING A PHOTO!</legend>
+            <input type="file" name="files[]" href="" onclickmultiple>
+            <input type="submit" value="REQUEST MONEY" name="submit">
+        </fieldset>
+    </form>
+
+    <script src="upload.js"></script>
+  </body>
+</html>
